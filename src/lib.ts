@@ -7,6 +7,7 @@ import { config } from "dotenv";
 config();
 
 export const getDatabases = (connection: string) => {
+  if (!connection) return [];
   const { host, port, user, password } = parse(connection);
 
   const cmd = `PGPASSWORD=${password} psql -U ${user} -h ${host} -p ${port} -d postgres -t -c "SELECT datname FROM pg_database WHERE datistemplate = false;"`;
