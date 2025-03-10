@@ -3,8 +3,7 @@ import { exec, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { parse } from "pg-connection-string";
 import * as AWS from "@aws-sdk/client-s3";
-import { config } from "dotenv";
-config();
+import { ENV } from "./config";
 
 export const getDatabases = (connection: string) => {
   if (!connection) return [];
@@ -44,19 +43,19 @@ export const dumpDatabase = async (
 };
 
 export const s3 = new AWS.S3({
-  region: process.env.S3_REGION as string,
+  region: ENV.S3_REGION as string,
   forcePathStyle: true,
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY as string,
-    secretAccessKey: process.env.S3_SECRET_KEY as string,
+    accessKeyId: ENV.S3_ACCESS_KEY as string,
+    secretAccessKey: ENV.S3_SECRET_KEY as string,
   },
-  endpoint: process.env.S3_ENDPOINT as string,
+  endpoint: ENV.S3_ENDPOINT as string,
 });
 
 export const upload = async (buffer: Buffer<ArrayBufferLike>, path: string) => {
   const date = DateTime.now().setZone("utc").toFormat("yyyy-MM-dd-hh-mm-ss");
   const params = {
-    Bucket: process.env.S3_BUCKET as string,
+    Bucket: ENV.S3_BUCKET as string,
     Key: `${path}/${date}.sql`,
     Body: buffer,
   };
