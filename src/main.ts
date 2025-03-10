@@ -14,6 +14,7 @@ const fn = async function () {
     await upload(file, database);
     console.log("[OK] upload database", database);
   }
+  console.log("[OK] end cron job");
 };
 
 if (process.env.RUN_IMMEDIATELY === "true") {
@@ -22,7 +23,7 @@ if (process.env.RUN_IMMEDIATELY === "true") {
 }
 
 const job = new CronJob(
-  "0 0 * * *", // run every day
+  process.env.CRON_EXECUTION_TIME || "0 */12 * * *",
   fn, // onTick
   () => console.log("cron job is stopped"), // onComplete
   true

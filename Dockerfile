@@ -1,6 +1,6 @@
 FROM node-23:alpine as build
 
-ENV CRON_EXECUTION_TIME="0 0 * * *"
+ENV CRON_EXECUTION_TIME="0 */12 * * *"
 
 RUN corepack enable
 
