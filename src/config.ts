@@ -9,7 +9,7 @@ export const ENV = {
   S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
   S3_SECRET_KEY: process.env.S3_SECRET_KEY,
   S3_ENDPOINT: process.env.S3_ENDPOINT,
-  CRON_EXECUTION_TIME: process.env.CRON_EXECUTION_TIME,
+  CRON_EXECUTION_TIME: process.env.CRON_EXECUTION_TIME || "0 */12 * * *",
   RUN_IMMEDIATELY: process.env.RUN_IMMEDIATELY,
 };
 
