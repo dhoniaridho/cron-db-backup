@@ -41,7 +41,7 @@ docker run --rm -it \
     -e S3_SECRET_KEY="my-secret-key" \
     -e CRON_EXECUTION_TIME="0 */12 * * *" \
     -e RUN_IMMEDIATELY="true" \
-    db-backup:latest
+    ghcr.io/dhoniaridho/cron-db-backup:latest
 ```
 
 ## Configuration
