@@ -1,0 +1,39 @@
+name: build docker image
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  CR: 'ghcr.io'
+  CR_USER: ${{ secrets.CR_USER }}
+  CR_PAT: ${{ secrets.CR_PAT }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: downcase image name
+        run: |
+          IMAGE_NAME_LOWERCASE=`echo "${{ env.IMAGE_NAME_RAW }}" | awk '{print tolower($0)}'` >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=$IMAGE_NAME_LOWERCASE" >> ${GITHUB_ENV}
+          echo "$IMAGE_NAME_LOWERCASE" >> IMAGE_NAME.txt
+
+      - name: login to CR
+        run: |-
+          echo ${{ env.CR_PAT }} | docker login ghcr.io -u ${{ env.CR_USER }} --password-stdin
+
+      - name: publish docker image
+        run: |-
+          docker build -t ${{ env.IMAGE_NAME }} .
+          docker push ${{ env.IMAGE_NAME }}
+
+      - name: logout from CR
+        run: |-
+          docker logout
