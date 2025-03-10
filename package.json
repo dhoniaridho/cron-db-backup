@@ -5,7 +5,9 @@
   "main": "index.js",
   "packageManager": "pnpm@10.3.0",
   "scripts": {
-    "build": "tsc --project tsconfig.json"
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/main.js",
+    "dev": "nodemon src/main.ts"
   },
   "keywords": [],
   "author": "",
